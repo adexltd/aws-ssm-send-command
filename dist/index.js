@@ -30,6 +30,7 @@ try {
     aws_sdk_1.default.config.update({
         accessKeyId: inputs.accessKeyId,
         secretAccessKey: inputs.secretAccessKey,
+        sessionToken: inputs.sessionToken || undefined,
         region: inputs.region,
     });
     // Run Send Command
@@ -61,6 +62,9 @@ function SanitizeInputs() {
     const _secretAccessKey = core.getInput("aws-secret-access-key", {
         required: true,
     });
+    const _sessionToken = core.getInput("aws-session-token", {
+        required: false,
+    });
     const _region = core.getInput("aws-region", { required: true });
     // SSM Send Command
     const _instanceIds = core.getInput("instance-ids", { required: true });
@@ -74,6 +78,7 @@ function SanitizeInputs() {
     return {
         accessKeyId: _accessKeyId,
         secretAccessKey: _secretAccessKey,
+        sessionToken: _sessionToken,
         region: _region,
         instanceIds: _instanceIds.split(/\n/),
         command: _command,
